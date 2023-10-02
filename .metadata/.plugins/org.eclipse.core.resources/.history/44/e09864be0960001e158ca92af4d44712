@@ -1,0 +1,43 @@
+package com.TestNexa.entity;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "Organization")
+public class Organization {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long org_id;
+	private String org_name;
+	private String org_code;
+	private Date start_date;
+	private Date expire_date;
+	private String org_admin_email;
+	private String org_description;
+
+	@OneToMany(mappedBy ="Organization",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonManagedReference
+	private List<ExamAdmin> examAdmins;
+	
+	@OneToMany(mappedBy = "Organization",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Student> students;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "")
+	private List<Organization> organizations;
+}

@@ -1,0 +1,41 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.UserSessionDetails;
+import com.TestNexa.service.UserSessionDetailsService;
+
+public class UserSessionDetailsServiceImplementation implements UserSessionDetailsService {
+
+	@Override
+	public List<UserSessionDetails> getAllUserSessionDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<UserSessionDetails> getUserSessionDetailsById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public UserSessionDetails createUserSessionDetails(UserSessionDetails admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserSessionDetails updateUserSessionDetails(UserSessionDetails admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUserSessionDetails(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

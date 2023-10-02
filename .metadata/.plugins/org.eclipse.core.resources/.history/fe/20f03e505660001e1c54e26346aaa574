@@ -1,0 +1,67 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.Question;
+import com.TestNexa.repository.QuestionRepository;
+import com.TestNexa.service.QuestionService;
+
+@Service
+public class QuestionServiceImplementation implements QuestionService {
+
+	@Autowired
+	private QuestionRepository questionRepository;
+
+	@Override
+	public List<Question> getAllQuestions() {
+		return questionRepository.findAll();
+	}
+
+	@Override
+	public Optional<Question> getQuestionsById(Long id) {
+		return questionRepository.findById(id);
+	}
+
+	@Override
+	public Question createQuestions(Question question) {
+		return questionRepository.save(question);
+	}
+
+	@Override
+	public Question updateQuestions(Question question) {
+		if (question == null || question.getQuestion_id() == null) {
+			throw new IllegalArgumentException("Question or ID cannot be null");
+		}
+
+		Optional<Question> existingQuestion = questionRepository.findById(question.getQuestion_id());
+
+		if (!existingQuestion.isPresent()) {
+			throw new QuestionNotFoundException("Question not found with ID: " + question.getQuestion_id());
+		}
+
+		return questionRepository.save(question);
+	}
+
+	@Override
+	public void deleteQuestions(Long id) {
+		if (id == null || id <= 0) {
+			throw new IllegalArgumentException("Invalid question ID");
+		}
+
+		Optional<Question> existingQuestion = questionRepository.findById(id);
+
+		if (!existingQuestion.isPresent()) {
+			throw new QuestionNotFoundException("Question not found with ID: " + id);
+		}
+
+		try {
+			questionRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to delete question with ID: " + id, e);
+		}
+	}
+}

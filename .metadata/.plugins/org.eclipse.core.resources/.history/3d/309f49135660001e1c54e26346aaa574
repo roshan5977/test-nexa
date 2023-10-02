@@ -1,0 +1,47 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.TestNexa.entity.Question;
+import com.TestNexa.repository.QuestionRepository;
+import com.TestNexa.service.QuestionService;
+
+public class QuestionServiceImplementation implements QuestionService {
+
+	@Autowired
+	private QuestionRepository questionRepository;
+
+	@Override
+	public List<Question> getAllQuestions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Question> getQuestionsById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public Question createQuestions(Question question) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Question updateQuestions(Question question) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteQuestions(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

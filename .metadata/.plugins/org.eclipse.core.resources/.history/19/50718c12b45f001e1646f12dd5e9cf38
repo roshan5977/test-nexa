@@ -1,0 +1,5 @@
+package com.TestNexa.service;
+
+public interface RoleService {
+
+}

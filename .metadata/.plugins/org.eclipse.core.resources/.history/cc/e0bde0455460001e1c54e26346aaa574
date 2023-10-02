@@ -1,0 +1,14 @@
+package com.TestNexa.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+public class Option {
+	private Long option_id;
+	private String option_name;
+
+}

@@ -1,0 +1,41 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.OrganizationAdmin;
+import com.TestNexa.service.OrganizationAdminService;
+
+public class OrganizationAdminServiceImplementation implements OrganizationAdminService {
+
+	@Override
+	public List<OrganizationAdmin> getAllOrganizationAdmin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<OrganizationAdmin> getOrganizationAdminById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public OrganizationAdmin createOrganizationAdmin(OrganizationAdmin org) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrganizationAdmin updateOrganizationAdmin(OrganizationAdmin org) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteOrganizationAdmin(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

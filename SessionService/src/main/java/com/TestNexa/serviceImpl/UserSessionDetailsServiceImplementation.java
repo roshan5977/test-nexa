@@ -1,0 +1,87 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.UserSessionDetails;
+import com.TestNexa.exception.UserSessionDetailsNotFoundException;
+import com.TestNexa.repository.UserSessionDetailsRepository;
+import com.TestNexa.service.UserSessionDetailsService;
+
+@Service
+public class UserSessionDetailsServiceImplementation implements UserSessionDetailsService {
+
+	@Autowired
+	private UserSessionDetailsRepository userSessionDetailsRepository;
+
+	@Override
+	public List<UserSessionDetails> getAllUserSessionDetails() {
+		List<UserSessionDetails> userSessionDetailsList = userSessionDetailsRepository.findAll();
+		if (userSessionDetailsList.isEmpty()) {
+			throw new UserSessionDetailsNotFoundException("No user session details found.");
+		}
+		return userSessionDetailsList;
+	}
+
+	@Override
+	public Optional<UserSessionDetails> getUserSessionDetailsById(Long id) {
+		if (id == null || id <= 0) {
+			throw new IllegalArgumentException("Invalid user session details ID");
+		}
+		Optional<UserSessionDetails> userSessionDetails = userSessionDetailsRepository.findById(id);
+		if (!userSessionDetails.isPresent()) {
+			throw new UserSessionDetailsNotFoundException("User session details not found with ID: " + id);
+		}
+		return userSessionDetails;
+	}
+
+	@Override
+	public UserSessionDetails createUserSessionDetails(UserSessionDetails userSessionDetails) {
+		if (userSessionDetails == null) {
+			throw new IllegalArgumentException("User session details cannot be null");
+		}
+		// Add any validation logic for the 'userSessionDetails' object here.
+		UserSessionDetails createdUserSessionDetails = userSessionDetailsRepository.save(userSessionDetails);
+		if (createdUserSessionDetails == null) {
+			throw new RuntimeException("Failed to create user session details");
+		}
+		return createdUserSessionDetails;
+	}
+
+	@Override
+	public UserSessionDetails updateUserSessionDetails(UserSessionDetails userSessionDetails) {
+		if (userSessionDetails == null || userSessionDetails.getUser_session_id() == null) {
+			throw new IllegalArgumentException("User session details or ID cannot be null");
+		}
+		Optional<UserSessionDetails> existingUserSessionDetails = userSessionDetailsRepository
+				.findById(userSessionDetails.getUser_session_id());
+		if (!existingUserSessionDetails.isPresent()) {
+			throw new UserSessionDetailsNotFoundException(
+					"User session details not found with ID: " + userSessionDetails.getUser_session_id());
+		}
+		UserSessionDetails updatedUserSessionDetails = userSessionDetailsRepository.save(userSessionDetails);
+		if (updatedUserSessionDetails == null) {
+			throw new RuntimeException("Failed to update user session details");
+		}
+		return updatedUserSessionDetails;
+	}
+
+	@Override
+	public void deleteUserSessionDetails(Long id) {
+		if (id == null || id <= 0) {
+			throw new IllegalArgumentException("Invalid user session details ID");
+		}
+		Optional<UserSessionDetails> existingUserSessionDetails = userSessionDetailsRepository.findById(id);
+		if (!existingUserSessionDetails.isPresent()) {
+			throw new UserSessionDetailsNotFoundException("User session details not found with ID: " + id);
+		}
+		try {
+			this.userSessionDetailsRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to delete user session details with ID: " + id, e);
+		}
+	}
+}

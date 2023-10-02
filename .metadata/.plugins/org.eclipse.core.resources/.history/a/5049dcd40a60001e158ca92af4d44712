@@ -1,0 +1,100 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.ExamAdmin;
+import com.TestNexa.exception.ExamAdminNotFoundException;
+import com.TestNexa.repository.ExamAdminRepository;
+import com.TestNexa.service.ExamAdminService;
+
+@Service
+public class ExamAdminServiceImplementation implements ExamAdminService {
+    @Autowired
+    private ExamAdminRepository examAdminRepository;
+
+    @Override
+    public List<ExamAdmin> getAllExamAdmins() {
+        List<ExamAdmin> examAdmins = examAdminRepository.findAll();
+        if (examAdmins.isEmpty()) {
+            throw new ExamAdminNotFoundException("No exam admins found.");
+        }
+
+        return examAdmins;
+    }
+
+    @Override
+    public Optional<ExamAdmin> getExamAdminById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid exam admin ID");
+        }
+
+        Optional<ExamAdmin> examAdmin = examAdminRepository.findById(id);
+
+        if (!examAdmin.isPresent()) {
+            throw new ExamAdminNotFoundException("Exam admin not found with ID: " + id);
+        }
+
+        return examAdmin;
+    }
+
+    @Override
+    public ExamAdmin createExamAdmin(ExamAdmin examAdmin) {
+        if (examAdmin == null) {
+            throw new IllegalArgumentException("Exam admin can't be null");
+        }
+
+        // Add any validation logic for the 'examAdmin' object here.
+
+        ExamAdmin createdExamAdmin = examAdminRepository.save(examAdmin);
+
+        if (createdExamAdmin == null) {
+            throw new RuntimeException("Failed to create exam admin");
+        }
+
+        return createdExamAdmin;
+    }
+
+    @Override
+    public ExamAdmin updateExamAdmin(ExamAdmin examAdmin) {
+        if (examAdmin == null || examAdmin.getExam_id() == null) {
+            throw new IllegalArgumentException("Exam admin or ID cannot be null");
+        }
+
+        Optional<ExamAdmin> existingExamAdmin = examAdminRepository.findById(examAdmin.getExam_id());
+
+        if (!existingExamAdmin.isPresent()) {
+            throw new ExamAdminNotFoundException("Exam admin not found with ID: " + examAdmin.getExam_id());
+        }
+
+        ExamAdmin updatedExamAdmin = examAdminRepository.save(examAdmin);
+
+        if (updatedExamAdmin == null) {
+            throw new RuntimeException("Failed to update exam admin");
+        }
+
+        return updatedExamAdmin;
+    }
+
+    @Override
+    public void deleteExamAdmin(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid exam admin ID");
+        }
+
+        Optional<ExamAdmin> existingExamAdmin = examAdminRepository.findById(id);
+
+        if (!existingExamAdmin.isPresent()) {
+            throw new ExamAdminNotFoundException("Exam admin not found with ID: " + id);
+        }
+
+        try {
+            this.examAdminRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete exam admin with ID: " + id, e);
+        }
+    }
+}

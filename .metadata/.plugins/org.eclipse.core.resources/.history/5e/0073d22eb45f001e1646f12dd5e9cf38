@@ -1,0 +1,82 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.User;
+import com.TestNexa.repository.UserRepository;
+import com.TestNexa.service.UserService;
+
+
+
+@Service
+public class UserServiceImplementation implements UserService {
+	@Autowired
+	private UserRepository userRepository;
+
+	@Override
+	public List<User> getAllUsers() {
+		List<User> ListOfUser = this.userRepository.findAll();
+		return ListOfUser;
+	}
+
+	@Override
+	public Optional<User> getUserById(Long id) {
+
+		if (id == null || id <= 0)
+			throw new IllegalArgumentException("User ID not found");
+
+		Optional<User> uid = this.userRepository.findById(id);
+		if (!uid.isPresent()) {
+			throw new UserNotFoundException("user not found");
+		}
+		return uid;
+
+	}
+
+	@Override
+	public User createUser(User user) {
+		if (user == null) {
+			throw new IllegalArgumentException("user can't be null");
+		}
+		User us = this.userRepository.save(user);
+		if (us == null) {
+			throw new RuntimeException("failed to create user");
+		}
+		return us;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		if (user == null || user.getUser_id() == null) {
+			throw new IllegalArgumentException("User or User ID cannot be null");
+		}
+		Optional<User> existingUser = userRepository.findById(user.getUser_id());
+		if (!existingUser.isPresent()) {
+			throw new UserNotFoundException("User not found with ID: " + user.getUser_id());
+		}
+		User updatedUser = userRepository.save(user);
+		if (updatedUser == null) {
+			throw new RuntimeException("Failed to update user");
+		}
+		return updatedUser;
+	}
+
+	@Override
+    public void deleteUser(Long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
+
+        userRepository.findById(id).ifPresentOrElse(
+                user -> userRepository.deleteById(id),
+                () -> {
+                    throw new UserNotFoundException("User not found with ID: " + id);
+                });
+    }
+
+}
+

@@ -1,0 +1,68 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.Options;
+import com.TestNexa.exception.OptionNotFoundException;
+import com.TestNexa.repository.OptionRepository;
+import com.TestNexa.service.OptionService;
+
+@Service
+public class OptionServiceImplementation implements OptionService {
+
+    @Autowired
+    private OptionRepository optionRepository;
+
+    @Override
+    public List<Options> getAllOptions() {
+        return optionRepository.findAll();
+    }
+
+    @Override
+    public Optional<Options> getOptionsById(Long id) {
+        return optionRepository.findById(id);
+    }
+
+    @Override
+    public Options createOptions(Options options) {
+        return optionRepository.save(options);
+    }
+
+    @Override
+    public Options updateOptions(Options options) {
+        if (options == null || options.getOption_id() == null) {
+            throw new IllegalArgumentException("Option or ID cannot be null");
+        }
+
+        Optional<Options> existingOption = optionRepository.findById(options.getOption_id());
+
+        if (!existingOption.isPresent()) {
+            throw new OptionNotFoundException("Option not found with ID: " + options.getOption_id());
+        }
+
+        return optionRepository.save(options);
+    }
+
+    @Override
+    public void deleteOptions(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid option ID");
+        }
+
+        Optional<Options> existingOption = optionRepository.findById(id);
+
+        if (!existingOption.isPresent()) {
+            throw new OptionNotFoundException("Option not found with ID: " + id);
+        }
+
+        try {
+            optionRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete option with ID: " + id, e);
+        }
+    }
+}

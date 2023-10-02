@@ -1,0 +1,41 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.UserAnswer;
+import com.TestNexa.service.UserAnswerService;
+
+public class UserAnswerServiceImplementation implements UserAnswerService {
+
+	@Override
+	public List<UserAnswer> getAllUserAnswers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<UserAnswer> getUserAnswerById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public UserAnswer createUserAnswer(UserAnswer admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserAnswer updateUserAnswer(UserAnswer admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUserAnswer(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

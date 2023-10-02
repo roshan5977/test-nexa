@@ -1,0 +1,22 @@
+package com.TestNexa.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import lombok.Data;
+
+@Data
+@Entity
+public class ExamAdmin {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long exam_id;
+	private String email;
+	private Long org_ref_id;
+	private String name;
+	private String org_code;
+
+}

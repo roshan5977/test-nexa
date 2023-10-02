@@ -1,0 +1,18 @@
+package com.TestNexa.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.Option;
+
+public interface OptionService {
+	public List<Option> getAllOptions();
+
+	public Optional<Option> getOptionsById(Long id);
+
+	public Option createOptions(Option options);
+
+	public Option updateOptions(Option options);
+
+	public void deleteOptions(Long id);
+}

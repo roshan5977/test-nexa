@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+    <typeInfo handle="=UserService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TestNexa.service{ExamAdminService.java[ExamAdminService" modifiers="513" timestamp="1696095149942"/>
+    <typeInfo handle="=UserService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TestNexa.service{StudentService.java[StudentService" modifiers="513" timestamp="1696095297898"/>
+    <typeInfo handle="=UserService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TestNexa.service{OrganizationAdminService.java[OrganizationAdminService" modifiers="513" timestamp="1696131959341"/>
+    <typeInfo handle="=SessionService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TestNexa.service{UserAnswerService.java[UserAnswerService" modifiers="513" timestamp="1696175632212"/>
+    <typeInfo handle="=SessionService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TestNexa.service{UserSessionDetailsService.java[UserSessionDetailsService" modifiers="513" timestamp="1696175618634"/>
+</typeInfoHistroy>

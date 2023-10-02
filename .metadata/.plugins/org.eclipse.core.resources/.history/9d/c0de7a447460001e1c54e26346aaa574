@@ -1,0 +1,14 @@
+package com.TestNexa.exception;
+
+import com.TestNexa.serviceImpl.UserSessionDetailsNotFoundException;
+
+public class UserSessionDetailsNotFoundException extends RuntimeException {
+
+	public UserSessionDetailsNotFoundException(String msg) {
+		super(msg);
+	}
+
+	public UserSessionDetailsNotFoundException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+}

@@ -1,0 +1,18 @@
+package com.TestNexa.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.ExamAdmin;
+
+public interface ExamAdminService {
+	public List<ExamAdmin> getAllUsers();
+
+	public Optional<ExamAdmin> getUserById(Long id);
+
+	public ExamAdmin createUser(ExamAdmin user);
+
+	public ExamAdmin updateUser(ExamAdmin user);
+
+	public void deleteUser(Long id);
+}

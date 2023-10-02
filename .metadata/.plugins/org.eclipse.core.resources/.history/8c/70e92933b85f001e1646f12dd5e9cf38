@@ -1,0 +1,41 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.TestNexa.entity.ExamAdmin;
+import com.TestNexa.service.ExamAdminService;
+
+public class ExamAdminServiceImplementation implements ExamAdminService {
+
+	@Override
+	public List<ExamAdmin> getAllExamAdmins() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<ExamAdmin> getExamAdminById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public ExamAdmin createExamAdmin(ExamAdmin admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ExamAdmin updateExamAdmin(ExamAdmin admin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteExamAdmin(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,32 @@
+package com.TestNexa.entity;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.Data;
+
+@Data
+@Entity
+public class ExamAdmin {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long exam_admin__id;
+	private String email;
+	private Long org_ref_id;
+	private String name;
+	private String org_code;
+
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinColumn(name="org_ref_id",referencedColumnName = "org_id")
+	@JsonBackReference
+	private Organization organization;
+}

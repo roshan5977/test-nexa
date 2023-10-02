@@ -1,0 +1,68 @@
+package com.TestNexa.controller;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.websocket.server.PathParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.portal.exception.UserNotFoundException;
+import com.portal.model.User;
+import com.portal.service.UserService;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+	@Autowired
+	private UserService userService;
+
+	@PostMapping("/save")
+	public ResponseEntity<User> saveUser(@RequestBody User user) {
+	    if (user == null) {
+	        return ResponseEntity.badRequest().build();
+	    }
+	    User savedUser = userService.createUser(user);
+	    return ResponseEntity.ok(savedUser);
+	}
+
+
+	@PutMapping("/update")
+	public ResponseEntity<User> updateUser(User user) {
+		return ResponseEntity.ok(userService.updateUser(user));
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public String deleteUser(@PathVariable Long id) {
+		this.userService.deleteUser(id);
+		return id + "Deleted Successfully";
+	}
+
+	@GetMapping("/getAll")
+	public ResponseEntity<List<User>> getAllUser() {
+		return ResponseEntity.ok(this.userService.getAllUsers());
+	}
+
+	@GetMapping("/getById/{id}")
+	public ResponseEntity<User> getById(@PathVariable Long id) {
+		Optional<User> user = userService.getUserById(id);
+
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("User not found with ID: " + id);
+		}
+
+		return ResponseEntity.ok(user.get());
+	}
+
+}
+

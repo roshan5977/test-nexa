@@ -1,0 +1,51 @@
+package com.TestNexa.controller;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.portal.exception.RoleNotFoundException;
+import com.portal.model.Role;
+import com.portal.service.RoleService;
+
+@RestController
+@RequestMapping("/role")
+public class RoleController {
+    @Autowired
+    private RoleService roleService;
+
+    @PostMapping("/save")
+    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+        return ResponseEntity.ok(roleService.createRole(role));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Role> updateRole(@RequestBody Role role) {
+        return ResponseEntity.ok(roleService.updateRole(role));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteRole(@PathVariable Long id) {
+        roleService.deleteRole(id);
+        return id + " Deleted Successfully";
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        return ResponseEntity.ok(roleService.getAllRole());
+    }
+
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
+        Optional<Role> roleById = roleService.getRoleById(id);
+        if(!roleById.isPresent()) {
+        	throw new RoleNotFoundException("Role Not found");
+        }
+        return ResponseEntity.ok(roleById.get());
+    }
+}
+

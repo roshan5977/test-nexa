@@ -1,0 +1,5 @@
+package com.TestNexa.repository;
+
+public interface OrganizationRepository {
+
+}

@@ -1,0 +1,85 @@
+package com.TestNexa.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TestNexa.entity.ScheduleExam;
+import com.TestNexa.exception.ScheduleExamNotFoundException;
+import com.TestNexa.repository.ScheduleExamRepository;
+import com.TestNexa.service.ScheduleExamService;
+
+@Service
+public class ScheduleExamServiceImplementation implements ScheduleExamService {
+
+    @Autowired
+    private ScheduleExamRepository scheduleExamRepository;
+
+    @Override
+    public List<ScheduleExam> getAllScheduleExams() {
+        List<ScheduleExam> scheduleExams = scheduleExamRepository.findAll();
+        if (scheduleExams.isEmpty()) {
+            throw new ScheduleExamNotFoundException("No schedule exams found.");
+        }
+        return scheduleExams;
+    }
+
+    @Override
+    public Optional<ScheduleExam> getScheduleExamById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid schedule exam ID");
+        }
+        Optional<ScheduleExam> scheduleExam = scheduleExamRepository.findById(id);
+        if (!scheduleExam.isPresent()) {
+            throw new ScheduleExamNotFoundException("Schedule exam not found with ID: " + id);
+        }
+        return scheduleExam;
+    }
+
+    @Override
+    public ScheduleExam createScheduleExams(ScheduleExam scheduleExam) {
+        if (scheduleExam == null) {
+            throw new IllegalArgumentException("Schedule exam cannot be null");
+        }
+        // Add any validation logic for the 'scheduleExam' object here.
+        ScheduleExam createdScheduleExam = scheduleExamRepository.save(scheduleExam);
+        if (createdScheduleExam == null) {
+            throw new RuntimeException("Failed to create schedule exam");
+        }
+        return createdScheduleExam;
+    }
+
+    @Override
+    public ScheduleExam updateScheduleExams(ScheduleExam scheduleExam) {
+        if (scheduleExam == null || scheduleExam.getSchedule_id() == null) {
+            throw new IllegalArgumentException("Schedule exam or ID cannot be null");
+        }
+        Optional<ScheduleExam> existingScheduleExam = scheduleExamRepository.findById(scheduleExam.getSchedule_id());
+        if (!existingScheduleExam.isPresent()) {
+            throw new ScheduleExamNotFoundException("Schedule exam not found with ID: " + scheduleExam.getSchedule_id());
+        }
+        ScheduleExam updatedScheduleExam = scheduleExamRepository.save(scheduleExam);
+        if (updatedScheduleExam == null) {
+            throw new RuntimeException("Failed to update schedule exam");
+        }
+        return updatedScheduleExam;
+    }
+
+    @Override
+    public void deleteScheduleExams(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid schedule exam ID");
+        }
+        Optional<ScheduleExam> existingScheduleExam = scheduleExamRepository.findById(id);
+        if (!existingScheduleExam.isPresent()) {
+            throw new ScheduleExamNotFoundException("Schedule exam not found with ID: " + id);
+        }
+        try {
+            this.scheduleExamRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete schedule exam with ID: " + id, e);
+        }
+    }
+}
